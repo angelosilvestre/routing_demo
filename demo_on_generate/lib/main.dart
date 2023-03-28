@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
       data: AuthData(),
       child: Builder(builder: (context) {
         final routing = RouteGenerator(
-          context: context,
           handlers: [
             // Public routes.
             PageHandler(
@@ -70,7 +69,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           onGenerateRoute: (settings) {
-            return routing.generateRoute(settings);
+            return routing.generateRoute(context, settings);
           },
         );
       }),
@@ -78,16 +77,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// This is for demonstrations only. NOT a complete solution.
 class RouteGenerator {
   RouteGenerator({
-    required this.context,
     required this.handlers,
   });
 
-  final BuildContext context;
   final List<RouteHandler> handlers;
 
-  Route<dynamic> generateRoute(RouteSettings settings) {
+  Route<dynamic> generateRoute(BuildContext context, RouteSettings settings) {
     final uri = settings.name != null //
         ? Uri.parse(settings.name!)
         : Uri.parse('/');
